@@ -1,19 +1,48 @@
 package com.example.springhttpserver.HTTPServer.service;
 
-import lombok.Data;
-import lombok.Getter;
+import com.example.springhttpserver.HTTPServer.dto.ManipulateStateDto;
 import org.springframework.stereotype.Service;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-@Data
 public class TextService {
-    public static ConcurrentHashMap<String, String> textStorage = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, String> stringStorage = new ConcurrentHashMap<>();
 
-    public void storeString(String textId, String stringMessage) {
-        textStorage.put(textId, stringMessage);
+    public ConcurrentHashMap<String, String> getStorage() {
+        return TextService.stringStorage;
     }
 
+    public ManipulateStateDto manipulateFromPostAndText(String textId, String messageBody) {
+        if (textId != null && messageBody != null) {
+            stringStorage.put(textId, messageBody);
+            return ManipulateStateDto.SUCCESS;
+        } else {
+            return ManipulateStateDto.FAIL;
+        }
+    }
 
+    public String manipulateFromGetAndText1(String textId) {
+        if (textId != null && stringStorage.containsKey(textId)) {
+            return stringStorage.get(textId);
+        } else {
+            return null;
+        }
+    }
 
+    public ManipulateStateDto manipulateFromGetAndText2(String stringOfTextId) {
+        if (stringOfTextId != null) {
+            return ManipulateStateDto.SUCCESS;
+        } else {
+            return ManipulateStateDto.FAIL;
+        }
+    }
+
+    public ManipulateStateDto manipulateFromDeleteAndText(String textId) {
+        if (textId != null && stringStorage.containsKey(textId)) {
+            stringStorage.remove(textId);
+            return ManipulateStateDto.SUCCESS;
+        } else {
+            return ManipulateStateDto.FAIL;
+        }
+    }
 }
