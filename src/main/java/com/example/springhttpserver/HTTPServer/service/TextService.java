@@ -2,14 +2,20 @@ package com.example.springhttpserver.HTTPServer.service;
 
 import com.example.springhttpserver.HTTPServer.dto.ManipulateStateDto;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class TextService {
-    private static ConcurrentHashMap<String, String> stringStorage = new ConcurrentHashMap<>();
+    private final static ConcurrentHashMap<String, String> stringStorage = new ConcurrentHashMap<>();
 
     public ConcurrentHashMap<String, String> getStorage() {
         return TextService.stringStorage;
+    }
+
+    public void pushString(String textId, String messageBody) {
+        stringStorage.put(textId, messageBody);
     }
 
     public ManipulateStateDto manipulateFromPostAndText(String textId, String messageBody) {

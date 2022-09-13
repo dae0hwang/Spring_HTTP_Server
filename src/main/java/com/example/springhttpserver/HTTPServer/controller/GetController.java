@@ -5,13 +5,18 @@ import com.example.springhttpserver.HTTPServer.service.ResponseService;
 import com.example.springhttpserver.HTTPServer.service.TextService;
 import com.example.springhttpserver.HTTPServer.service.TimeService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 @RequiredArgsConstructor
 @RestController
 public class GetController {
@@ -38,4 +43,14 @@ public class GetController {
 //    public ResponseEntity<byte[]> getFromImage() {
 //
 //    }
+    public static void main(String[] args) throws IOException {
+        BufferedImage image = ImageIO.read(GetController.class.getResourceAsStream("sea.jpg"));
+        System.out.println(image);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", byteArrayOutputStream);
+        byteArrayOutputStream.flush();
+        byte[] imageInByte = byteArrayOutputStream.toByteArray();
+        System.out.println(Arrays.toString(imageInByte));
+    }
+
 }
