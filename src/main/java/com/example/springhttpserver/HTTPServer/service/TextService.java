@@ -2,8 +2,6 @@ package com.example.springhttpserver.HTTPServer.service;
 
 import com.example.springhttpserver.HTTPServer.dto.ManipulateStateDto;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
