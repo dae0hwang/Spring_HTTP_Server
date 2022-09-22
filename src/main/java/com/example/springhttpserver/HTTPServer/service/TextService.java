@@ -1,24 +1,20 @@
 package com.example.springhttpserver.HTTPServer.service;
 
 import com.example.springhttpserver.HTTPServer.dto.ManipulateStateDto;
-import org.springframework.stereotype.Service;
-import java.util.concurrent.ConcurrentHashMap;
+import com.example.springhttpserver.HTTPServer.dto.StorageDto;
+import com.example.springhttpserver.HTTPServer.repository.StringRepository;
+import java.util.List;
 
-@Service
 public class TextService {
-    private final static ConcurrentHashMap<String, String> stringStorage = new ConcurrentHashMap<>();
+    private final StringRepository stringRepository;
 
-    public ConcurrentHashMap<String, String> getStorage() {
-        return TextService.stringStorage;
-    }
-
-    public void pushString(String textId, String messageBody) {
-        stringStorage.put(textId, messageBody);
+    public TextService(StringRepository stringRepository) {
+        this.stringRepository = stringRepository;
     }
 
     public ManipulateStateDto manipulateFromPostAndText(String textId, String messageBody) {
         if (textId != null && messageBody != null) {
-            stringStorage.put(textId, messageBody);
+            stringRepository.save(textId, messageBody);
             return ManipulateStateDto.SUCCESS;
         } else {
             return ManipulateStateDto.FAIL;
@@ -26,8 +22,10 @@ public class TextService {
     }
 
     public String manipulateFromGetAndText1(String textId) {
-        if (textId != null && stringStorage.containsKey(textId)) {
-            return stringStorage.get(textId);
+        StorageDto storageDto = stringRepository.findByTextId(textId);
+        if (textId != null && storageDto != null) {
+            String message = storageDto.getMessageBody();
+            return message;
         } else {
             return null;
         }
@@ -42,11 +40,17 @@ public class TextService {
     }
 
     public ManipulateStateDto manipulateFromDeleteAndText(String textId) {
-        if (textId != null && stringStorage.containsKey(textId)) {
-            stringStorage.remove(textId);
+        StorageDto storageDto = stringRepository.findByTextId(textId);
+        if (textId != null && storageDto != null) {
+            stringRepository.delete(textId);
             return ManipulateStateDto.SUCCESS;
         } else {
             return ManipulateStateDto.FAIL;
         }
+    }
+
+    public List<StorageDto> getStorage() {
+        List<StorageDto> list = stringRepository.findAll();
+        return list;
     }
 }
