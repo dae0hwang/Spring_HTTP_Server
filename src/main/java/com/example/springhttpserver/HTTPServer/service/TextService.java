@@ -2,19 +2,19 @@ package com.example.springhttpserver.HTTPServer.service;
 
 import com.example.springhttpserver.HTTPServer.dto.ManipulateStateDto;
 import com.example.springhttpserver.HTTPServer.dto.StorageDto;
-import com.example.springhttpserver.HTTPServer.repository.JdbcStringRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.example.springhttpserver.HTTPServer.repository.StringRepository;
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
 public class TextService {
-    private final JdbcStringRepository jdbcStringRepository;
+    private final StringRepository stringRepository;
+
+    public TextService(StringRepository stringRepository) {
+        this.stringRepository = stringRepository;
+    }
 
     public ManipulateStateDto manipulateFromPostAndText(String textId, String messageBody) {
         if (textId != null && messageBody != null) {
-            jdbcStringRepository.save(textId, messageBody);
+            stringRepository.save(textId, messageBody);
             return ManipulateStateDto.SUCCESS;
         } else {
             return ManipulateStateDto.FAIL;
@@ -22,7 +22,7 @@ public class TextService {
     }
 
     public String manipulateFromGetAndText1(String textId) {
-        StorageDto storageDto = jdbcStringRepository.findByTextId(textId);
+        StorageDto storageDto = stringRepository.findByTextId(textId);
         if (textId != null && storageDto != null) {
             String message = storageDto.getMessageBody();
             return message;
@@ -40,9 +40,9 @@ public class TextService {
     }
 
     public ManipulateStateDto manipulateFromDeleteAndText(String textId) {
-        StorageDto storageDto = jdbcStringRepository.findByTextId(textId);
+        StorageDto storageDto = stringRepository.findByTextId(textId);
         if (textId != null && storageDto != null) {
-            jdbcStringRepository.delete(textId);
+            stringRepository.delete(textId);
             return ManipulateStateDto.SUCCESS;
         } else {
             return ManipulateStateDto.FAIL;
@@ -50,7 +50,7 @@ public class TextService {
     }
 
     public List<StorageDto> getStorage() {
-        List<StorageDto> list = jdbcStringRepository.findAll();
+        List<StorageDto> list = stringRepository.findAll();
         return list;
     }
 }

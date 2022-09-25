@@ -1,13 +1,10 @@
 //package com.example.springhttpserver.HTTPServer.controller;
 //
-//import com.example.springhttpserver.HTTPServer.repository.MemoryStringRepository;
-//import com.example.springhttpserver.HTTPServer.repository.StringRepository;
 //import com.example.springhttpserver.HTTPServer.service.TextService;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.transaction.AfterTransaction;
 //import org.springframework.test.web.servlet.MockMvc;
 //import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 //import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -32,8 +29,7 @@
 //    @Test
 //    void getFromTextAndTextId() throws Exception {
 //        //given
-//        StringRepository stringRepository = new MemoryStringRepository();
-//        TextService textService = new TextService(stringRepository);
+//        TextService textService = new TextService();
 //        textService.pushString("textId", "messageBody");
 //
 //        //when
