@@ -58,7 +58,7 @@ public class TextService {
     public ManipulateStateDto manipulateFromPutAndText(String textId, String messageBody) {
         StorageDto storageDto = jdbcStringRepository.findByTextId(textId);
         if (textId != null && messageBody != null && storageDto != null) {
-
+            jdbcStringRepository.update(textId, messageBody);
             return ManipulateStateDto.SUCCESS;
         }
         return ManipulateStateDto.FAIL;

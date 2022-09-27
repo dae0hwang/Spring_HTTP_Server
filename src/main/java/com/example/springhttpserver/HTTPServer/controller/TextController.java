@@ -1,6 +1,5 @@
 package com.example.springhttpserver.HTTPServer.controller;
 
-import com.example.springhttpserver.HTTPServer.dto.ManipulateStateDto;
 import com.example.springhttpserver.HTTPServer.service.ResponseService;
 import com.example.springhttpserver.HTTPServer.service.TextService;
 import lombok.RequiredArgsConstructor;
@@ -30,18 +29,18 @@ public class TextController {
         return responseEntity;
     }
 
+    @PutMapping("/api/text/{textId}")
+    public ResponseEntity putFromText(@PathVariable String textId, @RequestBody String messageBody) {
+        var manipulateStateDto = textService.manipulateFromPutAndText(textId, messageBody);
+        var responseEntity = responseService.responseFromPutAndText(manipulateStateDto);
+        return responseEntity;
+    }
+
     @DeleteMapping("/api/text/{textId}")
     public ResponseEntity deleteFromTextAndTextId(@PathVariable String textId) {
         var manipulateStateDto = textService.manipulateFromDeleteAndText(textId);
         var responseEntity = responseService.responseFromDeleteAndText(manipulateStateDto);
         return responseEntity;
     }
-
-//    @PutMapping("/api/text/{textId}")
-//    public ResponseEntity putFromText(@PathVariable String textId, @RequestBody String messageBody) {
-//        ManipulateStateDto manipulateStateDto = null;
-//        //textservice.manipulateFromPutAndText
-//
-//    }
 }
 

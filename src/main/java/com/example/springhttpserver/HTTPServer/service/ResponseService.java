@@ -20,6 +20,18 @@ public class ResponseService {
         }
     }
 
+    public ResponseEntity responseFromPutAndText(ManipulateStateDto manipulateStateDto) {
+        if (manipulateStateDto == ManipulateStateDto.SUCCESS) {
+            return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(null);
+        } else {
+            return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null);
+        }
+    }
+
     public ResponseEntity<String> responseFromGetAndText
         (ManipulateStateDto manipulateStateDto, String stringOfTextId) {
         if (manipulateStateDto == ManipulateStateDto.SUCCESS) {

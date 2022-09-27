@@ -12,8 +12,7 @@ public class JdbcStringRepository {
 
     public void save(String textId, String messageBody) {
         String sql = "INSERT INTO storage (id, message) VALUES(?,?)";
-        try (Connection connection = connectJdbc();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = connectJdbc(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, textId);
             preparedStatement.setString(2, messageBody);
             preparedStatement.executeUpdate();
@@ -22,21 +21,24 @@ public class JdbcStringRepository {
         }
     }
 
-//    private void update(String textId, String messageBody) {
-//        String sql = "UPDATE storage SET message=? WHERE id=?";
-//        try()
-//        {
-//        }
-//    }
+    public void update(String textId, String messageBody) {
+        String sql = "UPDATE storage SET message=? WHERE id=?";
+        try (Connection connection = connectJdbc(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, messageBody);
+            preparedStatement.setString(2, textId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public StorageDto findByTextId(String textId) {
         String sql = "SELECT * FROM storage WHERE id=?";
         StorageDto storageDto = null;
 
-        try (Connection connection = connectJdbc();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = connectJdbc(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, textId);
-            try(ResultSet resultSet = preparedStatement.executeQuery();) {
+            try (ResultSet resultSet = preparedStatement.executeQuery();) {
                 while (resultSet.next()) {
                     String id = resultSet.getString(2);
                     String message = resultSet.getString(3);
@@ -52,10 +54,9 @@ public class JdbcStringRepository {
     }
 
     public void delete(String textId) {
-        String sql = "DELETE FROM storage WHERE id=?;";
+        String sql = "DELETE FROM storage WHERE id=?";
 
-        try (Connection connection = connectJdbc();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+        try (Connection connection = connectJdbc(); PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setString(1, textId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -67,9 +68,8 @@ public class JdbcStringRepository {
         String sql = "SELECT * FROM storage";
         List<StorageDto> list = new ArrayList<>();
 
-        try (Connection connection = connectJdbc();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            try(ResultSet resultSet = preparedStatement.executeQuery();) {
+        try (Connection connection = connectJdbc(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            try (ResultSet resultSet = preparedStatement.executeQuery();) {
                 while (resultSet.next()) {
                     String id = resultSet.getString(2);
                     String message = resultSet.getString(3);
@@ -93,5 +93,4 @@ public class JdbcStringRepository {
         String password = "111111";
         return DriverManager.getConnection("jdbc:mysql://" + server + "/" + database + "?useSSL=false", user_name, password);
     }
-
 }
