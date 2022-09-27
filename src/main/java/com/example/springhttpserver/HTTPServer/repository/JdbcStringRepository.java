@@ -1,180 +1,97 @@
 package com.example.springhttpserver.HTTPServer.repository;
 
 import com.example.springhttpserver.HTTPServer.dto.StorageDto;
+import org.springframework.stereotype.Service;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JdbcStringRepository implements StringRepository{
-    @Override
-    public void save(String textId, String messageBody) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String server = "localhost:3307";
-        String database = "jdbc";
-        String user_name = "root";
-        String password = "111111";
+@Service
+public class JdbcStringRepository {
 
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://" + server + "/" + database + "?useSSL=false"
-                , user_name, password);
-            System.out.println("정상적으로 연결되었습니다.");
-            String sql = "INSERT INTO storage VALUES(?,?);";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, textId);
-            pstmt.setString(2, messageBody);
-            int count = pstmt.executeUpdate();
-            if (count == 0) {
-                System.out.println("데이터 입력 실패");
-            } else {
-                System.out.println("데이터 입력성공");
-            }
+    public void save(String textId, String messageBody) {
+        String sql = "INSERT INTO storage (id, message) VALUES(?,?)";
+        try (Connection connection = connectJdbc();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, textId);
+            preparedStatement.setString(2, messageBody);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("에러 " + e);
-        } finally {
-            try {
-                if (conn != null && !conn.isClosed()) {
-                    conn.close();
-                }
-                if (pstmt != null && !pstmt.isClosed()) {
-                    pstmt.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
         }
     }
 
-    @Override
+//    private void update(String textId, String messageBody) {
+//        String sql = "UPDATE storage SET message=? WHERE id=?";
+//        try()
+//        {
+//        }
+//    }
+
     public StorageDto findByTextId(String textId) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        String server = "localhost:3307";
-        String database = "jdbc";
-        String user_name = "root";
-        String password = "111111";
+        String sql = "SELECT * FROM storage WHERE id=?";
         StorageDto storageDto = null;
-        try{
-            conn = DriverManager.getConnection("jdbc:mysql://" + server + "/" + database + "?useSSL=false"
-                , user_name, password);
-            System.out.println("정상적으로 연결되었습니다.");
-            String sql = "SELECT * FROM storage WHERE id=?;";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, textId);
-            rs = pstmt.executeQuery();
-            while(rs.next()){
-                String id = rs.getString(1);
-                String message = rs.getString(2);
-                storageDto = new StorageDto();
-                storageDto.setTextId(id);
-                storageDto.setMessageBody(message);
-            }
-        }
-        catch( SQLException e){
-            System.out.println("에러 " + e);
-        }
-        finally{
-            try{
-                if( conn != null && !conn.isClosed()){
-                    conn.close();
-                }
-                if( pstmt != null && !pstmt.isClosed()){
-                    pstmt.close();
-                }
-                if( rs != null && !rs.isClosed()){
-                    rs.close();
+
+        try (Connection connection = connectJdbc();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, textId);
+            try(ResultSet resultSet = preparedStatement.executeQuery();) {
+                while (resultSet.next()) {
+                    String id = resultSet.getString(2);
+                    String message = resultSet.getString(3);
+                    storageDto = new StorageDto();
+                    storageDto.setTextId(id);
+                    storageDto.setMessageBody(message);
                 }
             }
-            catch( SQLException e){
-                e.printStackTrace();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return storageDto;
     }
 
-    @Override
     public void delete(String textId) {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        String server = "localhost:3307";
-        String database = "jdbc";
-        String user_name = "root";
-        String password = "111111";
+        String sql = "DELETE FROM storage WHERE id=?;";
 
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://" + server + "/" + database + "?useSSL=false"
-                , user_name, password);
-            String sql = "DELETE FROM storage WHERE id=(?);";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, textId);
-            int count = pstmt.executeUpdate();
-            if (count == 0) {
-                System.out.println("데이터 입력 실패");
-            } else {
-                System.out.println("데이터 입력성공");
-            }
+        try (Connection connection = connectJdbc();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            preparedStatement.setString(1, textId);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("에러 " + e);
-        } finally {
-            try {
-                if (conn != null && !conn.isClosed()) {
-                    conn.close();
-                }
-                if (pstmt != null && !pstmt.isClosed()) {
-                    pstmt.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
         }
     }
 
-    @Override
     public List<StorageDto> findAll() {
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        String server = "localhost:3307";
-        String database = "jdbc";
-        String user_name = "root";
-        String password = "111111";
-        StorageDto storageDto = null;
+        String sql = "SELECT * FROM storage";
         List<StorageDto> list = new ArrayList<>();
-        try{
-            conn = DriverManager.getConnection("jdbc:mysql://" + server + "/" + database + "?useSSL=false"
-                , user_name, password);
-            String sql = "SELECT * FROM storage;";
-            pstmt = conn.prepareStatement(sql);
-            rs = pstmt.executeQuery();
-            while(rs.next()){
-                String id = rs.getString(1);
-                String message = rs.getString(2);
-                storageDto = new StorageDto();
-                storageDto.setTextId(id);
-                storageDto.setMessageBody(message);
-                list.add(storageDto);
-            }
-        }
-        catch( SQLException e){
-            System.out.println("에러 " + e);
-        }
-        finally{
-            try{
-                if( conn != null && !conn.isClosed()){
-                    conn.close();
-                }
-                if( pstmt != null && !pstmt.isClosed()){
-                    pstmt.close();
-                }
-                if( rs != null && !rs.isClosed()){
-                    rs.close();
+
+        try (Connection connection = connectJdbc();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            try(ResultSet resultSet = preparedStatement.executeQuery();) {
+                while (resultSet.next()) {
+                    String id = resultSet.getString(2);
+                    String message = resultSet.getString(3);
+                    StorageDto storageDto = new StorageDto();
+                    storageDto = new StorageDto();
+                    storageDto.setTextId(id);
+                    storageDto.setMessageBody(message);
+                    list.add(storageDto);
                 }
             }
-            catch( SQLException e){
-                e.printStackTrace();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return list;
     }
+
+    private Connection connectJdbc() throws SQLException {
+        String server = "localhost:3307";
+        String database = "jdbc";
+        String user_name = "root";
+        String password = "111111";
+        return DriverManager.getConnection("jdbc:mysql://" + server + "/" + database + "?useSSL=false", user_name, password);
+    }
+
 }
