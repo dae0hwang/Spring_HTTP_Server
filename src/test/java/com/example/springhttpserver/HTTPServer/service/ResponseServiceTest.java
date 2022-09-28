@@ -39,6 +39,26 @@ class ResponseServiceTest {
     }
 
     @Test
+    void responseFromPutAndText() {
+        //given
+        ManipulateStateDto success = ManipulateStateDto.SUCCESS;
+        ManipulateStateDto fail = ManipulateStateDto.FAIL;
+
+        ResponseEntity<Object> successResult = ResponseEntity.status(HttpStatus.CREATED).body(null);
+        ResponseEntity<Object> failResult = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+        //when1
+        ResponseEntity expected1 = responseService.responseFromPutAndText(success);
+        //then1
+        assertTrue(expected1.equals(successResult));
+
+        //when2
+        ResponseEntity expected2 = responseService.responseFromPutAndText(fail);
+        //then2
+        assertTrue(expected2.equals(failResult));
+    }
+
+    @Test
     void responseFromGetAndText() {
         //given
         ManipulateStateDto success = ManipulateStateDto.SUCCESS;

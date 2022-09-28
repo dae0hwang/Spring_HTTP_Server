@@ -86,6 +86,15 @@ public class JdbcStringRepository {
         return list;
     }
 
+    public void deleteAll() {
+        String sql = "DELETE FROM storage";
+        try (Connection connection = connectJdbc(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private Connection connectJdbc() throws SQLException {
         String server = "localhost:3307";
         String database = "jdbc";
