@@ -1,7 +1,6 @@
 package com.example.springhttpserver.HTTPServer.controller;
 
 import com.example.springhttpserver.HTTPServer.repository.JdbcStringRepository;
-import com.example.springhttpserver.HTTPServer.service.TextService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 class TextControllerTest {
+
     @Autowired
     private TextController textController;
     private MockMvc mockMvc;
@@ -92,7 +92,8 @@ class TextControllerTest {
             .andDo(print());
 
         //then3
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/text/wrongTextId").content("updateMessage"))
+        mockMvc.perform(
+                MockMvcRequestBuilders.put("/api/text/wrongTextId").content("updateMessage"))
             .andExpect(status().isNotFound())
             .andDo(print());
 

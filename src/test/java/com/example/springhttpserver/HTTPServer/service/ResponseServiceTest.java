@@ -35,7 +35,6 @@ class ResponseServiceTest {
         ResponseEntity expected2 = responseService.responseFromPostAndText(fail);
         //then2
         assertTrue(expected2.equals(failResult));
-
     }
 
     @Test
@@ -65,7 +64,8 @@ class ResponseServiceTest {
         ManipulateStateDto fail = ManipulateStateDto.FAIL;
 
         String stringOfTextId = "stringMessage";
-        ResponseEntity<Object> successResult = ResponseEntity.status(HttpStatus.OK).body("stringMessage");
+        ResponseEntity<Object> successResult = ResponseEntity.status(HttpStatus.OK)
+            .body("stringMessage");
         ResponseEntity<Object> failResult = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 
         //when1
@@ -77,7 +77,6 @@ class ResponseServiceTest {
         ResponseEntity expected2 = responseService.responseFromGetAndText(fail, stringOfTextId);
         //then2
         assertTrue(expected2.equals(failResult));
-
     }
 
     @Test
@@ -86,7 +85,8 @@ class ResponseServiceTest {
         ManipulateStateDto success = ManipulateStateDto.SUCCESS;
         ManipulateStateDto fail = ManipulateStateDto.FAIL;
 
-        ResponseEntity<Object> successResult = ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        ResponseEntity<Object> successResult = ResponseEntity.status(HttpStatus.NO_CONTENT)
+            .body(null);
         ResponseEntity<Object> failResult = ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 
         //when1

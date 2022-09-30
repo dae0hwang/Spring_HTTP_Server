@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @SpringBootTest
 class TimeControllerTest {
+
     @Autowired
     private TimeController timeController;
     private MockMvc mockMvc;

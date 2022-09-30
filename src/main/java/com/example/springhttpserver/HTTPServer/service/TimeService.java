@@ -6,6 +6,7 @@ import java.util.Date;
 
 @Service
 public class TimeService {
+
     public TimeDto getCurrentTime() {
         TimeDto timeDto = new TimeDto();
         timeDto.setTime((new Date()).toString());

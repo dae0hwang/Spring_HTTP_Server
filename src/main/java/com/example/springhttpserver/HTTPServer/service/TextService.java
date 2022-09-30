@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TextService {
+
     private final JdbcStringRepository jdbcStringRepository;
 
     public ManipulateStateDto manipulateFromPostAndText(String textId, String messageBody) {

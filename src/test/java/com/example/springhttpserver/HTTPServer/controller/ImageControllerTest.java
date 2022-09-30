@@ -7,10 +7,12 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.FileCopyUtils;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
@@ -37,8 +39,8 @@ class ImageControllerTest {
         mockMvc.perform(get("/api/image"))
             .andExpect(status().isOk())
             .andExpect(content().bytes(imageBytes))
-            .andExpect(header().string("Content-Type","image/jpeg"))
-            .andExpect(header().string("Content-Length","48748"))
+            .andExpect(header().string("Content-Type", "image/jpeg"))
+            .andExpect(header().string("Content-Length", "48748"))
             .andDo(print());
     }
 }

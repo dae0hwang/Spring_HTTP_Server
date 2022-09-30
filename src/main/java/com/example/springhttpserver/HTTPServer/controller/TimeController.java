@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 public class TimeController {
+
     private final TimeService timeService;
 
     @GetMapping("/api/time")

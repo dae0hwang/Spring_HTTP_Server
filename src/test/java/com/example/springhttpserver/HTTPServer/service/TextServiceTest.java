@@ -8,16 +8,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 class TextServiceTest {
 
-    @Autowired TextService textService;
-    @Autowired JdbcStringRepository jdbcStringRepository;
+    @Autowired
+    TextService textService;
+    @Autowired
+    JdbcStringRepository jdbcStringRepository;
 
     @BeforeEach
     void beforeEach() {
@@ -33,7 +35,7 @@ class TextServiceTest {
 
     @Test
     void manipulateFromPostAndText() {
-       //given
+        //given
         ManipulateStateDto successResult = ManipulateStateDto.SUCCESS;
         ManipulateStateDto failResult = ManipulateStateDto.FAIL;
         String textId = "textId";
@@ -45,17 +47,20 @@ class TextServiceTest {
         assertEquals(expected1, successResult);
 
         //when2
-        ManipulateStateDto expected2 = textService.manipulateFromPostAndText(null, messageBody);
+        ManipulateStateDto expected2 =
+            textService.manipulateFromPostAndText(null, messageBody);
         //then2
         assertEquals(expected2, failResult);
 
         //when3
-        ManipulateStateDto expected3 = textService.manipulateFromPostAndText(textId, null);
+        ManipulateStateDto expected3 =
+            textService.manipulateFromPostAndText(textId, null);
         //then3
         assertEquals(expected3, failResult);
 
         //when4
-        ManipulateStateDto expected4 = textService.manipulateFromPostAndText(null, null);
+        ManipulateStateDto expected4 =
+            textService.manipulateFromPostAndText(null, null);
         //then4
         assertEquals(expected4, failResult);
     }
@@ -98,7 +103,7 @@ class TextServiceTest {
     @Test
     void manipulateFromDeleteAndText() {
         //given
-        jdbcStringRepository.save("textId","messageBody");
+        jdbcStringRepository.save("textId", "messageBody");
         ManipulateStateDto successResult = ManipulateStateDto.SUCCESS;
         ManipulateStateDto failResult = ManipulateStateDto.FAIL;
 
@@ -121,8 +126,8 @@ class TextServiceTest {
     @Test
     void getStorage() {
         //given
-        jdbcStringRepository.save("textId1","messageBody");
-        jdbcStringRepository.save("textId2","messageBody");
+        jdbcStringRepository.save("textId1", "messageBody");
+        jdbcStringRepository.save("textId2", "messageBody");
         List<StorageDto> result = new ArrayList<>();
         StorageDto storageDto1 = new StorageDto();
         storageDto1.setTextId("textId1");
@@ -148,22 +153,26 @@ class TextServiceTest {
         ManipulateStateDto fail = ManipulateStateDto.FAIL;
 
         //when1
-        ManipulateStateDto expected1 = textService.manipulateFromPutAndText("textId", "updateMessage");
+        ManipulateStateDto expected1 = textService.manipulateFromPutAndText("textId",
+            "updateMessage");
         //then1
         assertEquals(expected1, success);
 
         //when2
-        ManipulateStateDto expected2 = textService.manipulateFromPutAndText("noExistId", "updateMessage");
+        ManipulateStateDto expected2 = textService.manipulateFromPutAndText("noExistId",
+            "updateMessage");
         //then2
         assertEquals(expected2, fail);
 
         //when3
-        ManipulateStateDto expected3 = textService.manipulateFromPutAndText("textId", null);
+        ManipulateStateDto expected3 =
+            textService.manipulateFromPutAndText("textId", null);
         //then3
         assertEquals(expected3, fail);
 
         //when4
-        ManipulateStateDto expected4 = textService.manipulateFromPutAndText(null, "updateMessage");
+        ManipulateStateDto expected4 =
+            textService.manipulateFromPutAndText(null, "updateMessage");
         //then4
         assertEquals(expected4, fail);
     }

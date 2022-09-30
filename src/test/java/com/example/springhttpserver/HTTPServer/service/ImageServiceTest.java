@@ -4,18 +4,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
-
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ImageServiceTest {
+
     ImageService imageService;
 
     @BeforeEach
     void init() {
         imageService = new ImageService();
     }
+
     @Test
     void manipulateFromGetAndImage() throws IOException {
         //given
