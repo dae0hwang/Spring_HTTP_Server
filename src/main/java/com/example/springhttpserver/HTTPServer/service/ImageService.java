@@ -11,7 +11,6 @@ public class ImageService {
 
     public byte[] manipulateFromGetAndImage() throws IOException {
         ClassPathResource resource = new ClassPathResource("image/sea.jpg");
-        byte[] imageBytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
-        return imageBytes;
+        return FileCopyUtils.copyToByteArray(resource.getInputStream());
     }
 }

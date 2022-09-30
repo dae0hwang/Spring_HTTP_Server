@@ -14,13 +14,11 @@ public class TextController {
     private final ResponseService responseService;
 
     @GetMapping("/api/text/{textId}")
-    public ResponseEntity<String> getFromTextAndTextId(@PathVariable String textId) {
+    public ResponseEntity getFromTextAndTextId(@PathVariable String textId) {
         var stringOfTextId = textService.manipulateFromGetAndText1(textId);
         var manipulateStateDto =
             textService.manipulateFromGetAndText2(stringOfTextId);
-        ResponseEntity responseEntity =
-            responseService.responseFromGetAndText(manipulateStateDto, stringOfTextId);
-        return responseEntity;
+        return responseService.responseFromGetAndText(manipulateStateDto, stringOfTextId);
     }
 
     @PostMapping("/api/text/{textId}")
@@ -40,17 +38,13 @@ public class TextController {
         @RequestBody String messageBody) {
         var manipulateStateDto =
             textService.manipulateFromPutAndText(textId, messageBody);
-        var responseEntity =
-            responseService.responseFromPutAndText(manipulateStateDto);
-        return responseEntity;
+        return responseService.responseFromPutAndText(manipulateStateDto);
     }
 
     @DeleteMapping("/api/text/{textId}")
     public ResponseEntity deleteFromTextAndTextId(@PathVariable String textId) {
         var manipulateStateDto = textService.manipulateFromDeleteAndText(textId);
-        var responseEntity =
-            responseService.responseFromDeleteAndText(manipulateStateDto);
-        return responseEntity;
+        return responseService.responseFromDeleteAndText(manipulateStateDto);
     }
 }
 

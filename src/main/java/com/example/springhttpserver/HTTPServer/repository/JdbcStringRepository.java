@@ -41,7 +41,7 @@ public class JdbcStringRepository {
         try (Connection connection = connectJdbc();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, textId);
-            try (ResultSet resultSet = preparedStatement.executeQuery();) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     String id = resultSet.getString(2);
                     String message = resultSet.getString(3);
@@ -60,7 +60,7 @@ public class JdbcStringRepository {
         String sql = "DELETE FROM storage WHERE id=?";
 
         try (Connection connection = connectJdbc();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, textId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -74,12 +74,11 @@ public class JdbcStringRepository {
 
         try (Connection connection = connectJdbc();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            try (ResultSet resultSet = preparedStatement.executeQuery();) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     String id = resultSet.getString(2);
                     String message = resultSet.getString(3);
                     StorageDto storageDto = new StorageDto();
-                    storageDto = new StorageDto();
                     storageDto.setTextId(id);
                     storageDto.setMessageBody(message);
                     list.add(storageDto);

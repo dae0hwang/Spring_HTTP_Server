@@ -29,12 +29,12 @@ class ResponseServiceTest {
         //when1
         ResponseEntity expected1 = responseService.responseFromPostAndText(success);
         //then1
-        assertTrue(expected1.equals(successResult));
+        assertEquals(expected1, successResult);
 
         //when2
         ResponseEntity expected2 = responseService.responseFromPostAndText(fail);
         //then2
-        assertTrue(expected2.equals(failResult));
+        assertEquals(expected2,failResult);
     }
 
     @Test
@@ -49,12 +49,12 @@ class ResponseServiceTest {
         //when1
         ResponseEntity expected1 = responseService.responseFromPutAndText(success);
         //then1
-        assertTrue(expected1.equals(successResult));
+        assertEquals(expected1, successResult);
 
         //when2
         ResponseEntity expected2 = responseService.responseFromPutAndText(fail);
         //then2
-        assertTrue(expected2.equals(failResult));
+        assertEquals(expected2, failResult);
     }
 
     @Test
@@ -71,12 +71,12 @@ class ResponseServiceTest {
         //when1
         ResponseEntity expected1 = responseService.responseFromGetAndText(success, stringOfTextId);
         //then1
-        assertTrue(expected1.equals(successResult));
+        assertEquals(expected1, successResult);
 
         //when2
         ResponseEntity expected2 = responseService.responseFromGetAndText(fail, stringOfTextId);
         //then2
-        assertTrue(expected2.equals(failResult));
+        assertEquals(expected2, failResult);
     }
 
     @Test
@@ -92,11 +92,11 @@ class ResponseServiceTest {
         //when1
         ResponseEntity expected1 = responseService.responseFromDeleteAndText(success);
         //then1
-        assertTrue(expected1.equals(successResult));
+        assertEquals(expected1, successResult);
 
         //when2
         ResponseEntity expected2 = responseService.responseFromDeleteAndText(fail);
         //then2
-        assertTrue(expected2.equals(failResult));
+        assertEquals(expected2, failResult);
     }
 }

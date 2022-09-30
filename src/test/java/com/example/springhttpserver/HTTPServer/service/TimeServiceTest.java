@@ -27,6 +27,6 @@ class TimeServiceTest {
         TimeDto expected = timeService.getCurrentTime();
 
         //then
-        assertTrue(expected.equals(timeDto));
+        assertEquals(expected, timeDto);
     }
 }

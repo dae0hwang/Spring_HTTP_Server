@@ -74,12 +74,12 @@ class TextServiceTest {
         //when1
         String expected1 = textService.manipulateFromGetAndText1("textId");
         //then1
-        assertTrue(expected1.equals(result1));
+        assertEquals(expected1, result1);
 
         //when2
         String expected2 = textService.manipulateFromGetAndText1("wrongTextId");
         //then2
-        assertEquals(expected2, null);
+        assertNull(expected2);
     }
 
     @Test

@@ -26,8 +26,7 @@ public class TextService {
     public String manipulateFromGetAndText1(String textId) {
         StorageDto storageDto = jdbcStringRepository.findByTextId(textId);
         if (textId != null && storageDto != null) {
-            String message = storageDto.getMessageBody();
-            return message;
+            return storageDto.getMessageBody();
         } else {
             return null;
         }
@@ -52,8 +51,7 @@ public class TextService {
     }
 
     public List<StorageDto> getStorage() {
-        List<StorageDto> list = jdbcStringRepository.findAll();
-        return list;
+        return jdbcStringRepository.findAll();
     }
 
     public ManipulateStateDto manipulateFromPutAndText(String textId, String messageBody) {
