@@ -1,6 +1,5 @@
 package com.example.springhttpserver.HTTPServer.service;
 
-import com.example.springhttpserver.HTTPServer.dto.ManipulateStateDto;
 import com.example.springhttpserver.HTTPServer.dto.StorageDto;
 import com.example.springhttpserver.HTTPServer.repository.JdbcStringRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -36,30 +35,30 @@ class TextServiceTest {
     @Test
     void manipulateFromPostAndText() {
         //given
-        ManipulateStateDto successResult = ManipulateStateDto.SUCCESS;
-        ManipulateStateDto failResult = ManipulateStateDto.FAIL;
+        ManipulateState successResult = ManipulateState.SUCCESS;
+        ManipulateState failResult = ManipulateState.FAIL;
         String textId = "textId";
         String messageBody = "messageBody";
 
         //when1
-        ManipulateStateDto expected1 = textService.manipulateFromPostAndText(textId, messageBody);
+        ManipulateState expected1 = textService.manipulateFromPostAndText(textId, messageBody);
         //then1
         assertEquals(expected1, successResult);
 
         //when2
-        ManipulateStateDto expected2 =
+        ManipulateState expected2 =
             textService.manipulateFromPostAndText(null, messageBody);
         //then2
         assertEquals(expected2, failResult);
 
         //when3
-        ManipulateStateDto expected3 =
+        ManipulateState expected3 =
             textService.manipulateFromPostAndText(textId, null);
         //then3
         assertEquals(expected3, failResult);
 
         //when4
-        ManipulateStateDto expected4 =
+        ManipulateState expected4 =
             textService.manipulateFromPostAndText(null, null);
         //then4
         assertEquals(expected4, failResult);
@@ -86,16 +85,16 @@ class TextServiceTest {
     void manipulateFromGetAndText2() {
         //given
         String StringTextId = "StringTextId";
-        ManipulateStateDto successResult = ManipulateStateDto.SUCCESS;
-        ManipulateStateDto failResult = ManipulateStateDto.FAIL;
+        ManipulateState successResult = ManipulateState.SUCCESS;
+        ManipulateState failResult = ManipulateState.FAIL;
 
         //when1
-        ManipulateStateDto expected1 = textService.manipulateFromGetAndText2(StringTextId);
+        ManipulateState expected1 = textService.manipulateFromGetAndText2(StringTextId);
         //then1
         assertEquals(expected1, successResult);
 
         //when2
-        ManipulateStateDto expected2 = textService.manipulateFromGetAndText2(null);
+        ManipulateState expected2 = textService.manipulateFromGetAndText2(null);
         //then2
         assertEquals(expected2, failResult);
     }
@@ -104,21 +103,21 @@ class TextServiceTest {
     void manipulateFromDeleteAndText() {
         //given
         jdbcStringRepository.save("textId", "messageBody");
-        ManipulateStateDto successResult = ManipulateStateDto.SUCCESS;
-        ManipulateStateDto failResult = ManipulateStateDto.FAIL;
+        ManipulateState successResult = ManipulateState.SUCCESS;
+        ManipulateState failResult = ManipulateState.FAIL;
 
         //when1
-        ManipulateStateDto expected1 = textService.manipulateFromDeleteAndText("textId");
+        ManipulateState expected1 = textService.manipulateFromDeleteAndText("textId");
         //then1
         assertEquals(expected1, successResult);
 
         //when2
-        ManipulateStateDto expected2 = textService.manipulateFromDeleteAndText(null);
+        ManipulateState expected2 = textService.manipulateFromDeleteAndText(null);
         //then2
         assertEquals(expected2, failResult);
 
         //when3
-        ManipulateStateDto expected3 = textService.manipulateFromDeleteAndText("wrongTextId");
+        ManipulateState expected3 = textService.manipulateFromDeleteAndText("wrongTextId");
         //given3
         assertEquals(expected3, failResult);
     }
@@ -149,29 +148,29 @@ class TextServiceTest {
     void manipulateFromPutAndText() {
         //given
         jdbcStringRepository.save("textId", "messageBody");
-        ManipulateStateDto success = ManipulateStateDto.SUCCESS;
-        ManipulateStateDto fail = ManipulateStateDto.FAIL;
+        ManipulateState success = ManipulateState.SUCCESS;
+        ManipulateState fail = ManipulateState.FAIL;
 
         //when1
-        ManipulateStateDto expected1 = textService.manipulateFromPutAndText("textId",
+        ManipulateState expected1 = textService.manipulateFromPutAndText("textId",
             "updateMessage");
         //then1
         assertEquals(expected1, success);
 
         //when2
-        ManipulateStateDto expected2 = textService.manipulateFromPutAndText("noExistId",
+        ManipulateState expected2 = textService.manipulateFromPutAndText("noExistId",
             "updateMessage");
         //then2
         assertEquals(expected2, fail);
 
         //when3
-        ManipulateStateDto expected3 =
+        ManipulateState expected3 =
             textService.manipulateFromPutAndText("textId", null);
         //then3
         assertEquals(expected3, fail);
 
         //when4
-        ManipulateStateDto expected4 =
+        ManipulateState expected4 =
             textService.manipulateFromPutAndText(null, "updateMessage");
         //then4
         assertEquals(expected4, fail);
