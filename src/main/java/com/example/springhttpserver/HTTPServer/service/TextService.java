@@ -1,6 +1,5 @@
 package com.example.springhttpserver.HTTPServer.service;
 
-import com.example.springhttpserver.HTTPServer.dto.ManipulateStateDto;
 import com.example.springhttpserver.HTTPServer.dto.StorageDto;
 import com.example.springhttpserver.HTTPServer.repository.JdbcStringRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +13,12 @@ public class TextService {
 
     private final JdbcStringRepository jdbcStringRepository;
 
-    public ManipulateStateDto manipulateFromPostAndText(String textId, String messageBody) {
+    public ManipulateState manipulateFromPostAndText(String textId, String messageBody) {
         if (textId != null && messageBody != null) {
             jdbcStringRepository.save(textId, messageBody);
-            return ManipulateStateDto.SUCCESS;
+            return ManipulateState.SUCCESS;
         } else {
-            return ManipulateStateDto.FAIL;
+            return ManipulateState.FAIL;
         }
     }
 
@@ -32,21 +31,21 @@ public class TextService {
         }
     }
 
-    public ManipulateStateDto manipulateFromGetAndText2(String stringOfTextId) {
+    public ManipulateState manipulateFromGetAndText2(String stringOfTextId) {
         if (stringOfTextId != null) {
-            return ManipulateStateDto.SUCCESS;
+            return ManipulateState.SUCCESS;
         } else {
-            return ManipulateStateDto.FAIL;
+            return ManipulateState.FAIL;
         }
     }
 
-    public ManipulateStateDto manipulateFromDeleteAndText(String textId) {
+    public ManipulateState manipulateFromDeleteAndText(String textId) {
         StorageDto storageDto = jdbcStringRepository.findByTextId(textId);
         if (textId != null && storageDto != null) {
             jdbcStringRepository.delete(textId);
-            return ManipulateStateDto.SUCCESS;
+            return ManipulateState.SUCCESS;
         } else {
-            return ManipulateStateDto.FAIL;
+            return ManipulateState.FAIL;
         }
     }
 
@@ -54,12 +53,12 @@ public class TextService {
         return jdbcStringRepository.findAll();
     }
 
-    public ManipulateStateDto manipulateFromPutAndText(String textId, String messageBody) {
+    public ManipulateState manipulateFromPutAndText(String textId, String messageBody) {
         StorageDto storageDto = jdbcStringRepository.findByTextId(textId);
         if (textId != null && messageBody != null && storageDto != null) {
             jdbcStringRepository.update(textId, messageBody);
-            return ManipulateStateDto.SUCCESS;
+            return ManipulateState.SUCCESS;
         }
-        return ManipulateStateDto.FAIL;
+        return ManipulateState.FAIL;
     }
 }
