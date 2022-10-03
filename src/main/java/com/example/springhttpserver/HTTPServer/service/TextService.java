@@ -5,60 +5,49 @@ import com.example.springhttpserver.HTTPServer.repository.JdbcStringRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class TextService {
 
     private final JdbcStringRepository jdbcStringRepository;
 
-    public ManipulateState manipulateFromPostAndText(String textId, String messageBody) {
+    public ManipulateState manipulateFromPostAndText(String textId, String messageBody)
+        throws NotFoundException {
         if (textId != null && messageBody != null) {
             jdbcStringRepository.save(textId, messageBody);
             return ManipulateState.SUCCESS;
         } else {
-            return ManipulateState.FAIL;
+            throw new NotFoundException();
         }
     }
 
-    public String manipulateFromGetAndText1(String textId) {
+    public String manipulateFromGetAndText(String textId) throws NotFoundException {
         StorageDto storageDto = jdbcStringRepository.findByTextId(textId);
         if (textId != null && storageDto != null) {
             return storageDto.getMessageBody();
         } else {
-            return null;
+            throw new NotFoundException();
         }
     }
 
-    public ManipulateState manipulateFromGetAndText2(String stringOfTextId) {
-        if (stringOfTextId != null) {
-            return ManipulateState.SUCCESS;
-        } else {
-            return ManipulateState.FAIL;
-        }
-    }
-
-    public ManipulateState manipulateFromDeleteAndText(String textId) {
+    public ManipulateState manipulateFromDeleteAndText(String textId) throws NotFoundException {
         StorageDto storageDto = jdbcStringRepository.findByTextId(textId);
         if (textId != null && storageDto != null) {
             jdbcStringRepository.delete(textId);
             return ManipulateState.SUCCESS;
         } else {
-            return ManipulateState.FAIL;
+            throw new NotFoundException();
         }
     }
 
-    public List<StorageDto> getStorage() {
-        return jdbcStringRepository.findAll();
-    }
-
-    public ManipulateState manipulateFromPutAndText(String textId, String messageBody) {
+    public ManipulateState manipulateFromPutAndText(String textId, String messageBody)
+        throws NotFoundException {
         StorageDto storageDto = jdbcStringRepository.findByTextId(textId);
         if (textId != null && messageBody != null && storageDto != null) {
             jdbcStringRepository.update(textId, messageBody);
             return ManipulateState.SUCCESS;
+        } else {
+            throw new NotFoundException();
         }
-        return ManipulateState.FAIL;
     }
 }

@@ -1,14 +1,12 @@
 package com.example.springhttpserver.HTTPServer.service;
 
-import com.example.springhttpserver.HTTPServer.dto.StorageDto;
 import com.example.springhttpserver.HTTPServer.repository.JdbcStringRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,151 +26,111 @@ class TextServiceTest {
     @AfterEach
     void afterEach() {
         jdbcStringRepository.delete("textId");
-        jdbcStringRepository.delete("textId1");
-        jdbcStringRepository.delete("textId2");
     }
 
     @Test
-    void manipulateFromPostAndText() {
+    @DisplayName("post 메소드 성공 테스트")
+    void manipulateFromPostAndText1() throws NotFoundException {
         //given
         ManipulateState successResult = ManipulateState.SUCCESS;
-        ManipulateState failResult = ManipulateState.FAIL;
         String textId = "textId";
         String messageBody = "messageBody";
 
-        //when1
+        //when
         ManipulateState expected1 = textService.manipulateFromPostAndText(textId, messageBody);
-        //then1
+        //then
         assertEquals(expected1, successResult);
-
-        //when2
-        ManipulateState expected2 =
-            textService.manipulateFromPostAndText(null, messageBody);
-        //then2
-        assertEquals(expected2, failResult);
-
-        //when3
-        ManipulateState expected3 =
-            textService.manipulateFromPostAndText(textId, null);
-        //then3
-        assertEquals(expected3, failResult);
-
-        //when4
-        ManipulateState expected4 =
-            textService.manipulateFromPostAndText(null, null);
-        //then4
-        assertEquals(expected4, failResult);
     }
 
     @Test
-    void manipulateFromGetAndText1() {
+    @DisplayName("post 메소드 실패, textId 없어서")
+    void manipulateFromPostAndText2() {
+        //given
+        String messageBody = "message";
+
+        //then
+        assertThrows(NotFoundException.class, () -> {
+            //when
+            textService.manipulateFromPostAndText(null, messageBody);
+        });
+    }
+
+    @Test
+    @DisplayName("get 메소드 성공 test")
+    void manipulateFromGetAndText1() throws NotFoundException {
         //given
         jdbcStringRepository.save("textId", "messageBody");
         String result1 = "messageBody";
 
-        //when1
-        String expected1 = textService.manipulateFromGetAndText1("textId");
-        //then1
+        //when
+        String expected1 = textService.manipulateFromGetAndText("textId");
+        //then
         assertEquals(expected1, result1);
-
-        //when2
-        String expected2 = textService.manipulateFromGetAndText1("wrongTextId");
-        //then2
-        assertNull(expected2);
     }
 
     @Test
+    @DisplayName("get 메소드 실패 test")
     void manipulateFromGetAndText2() {
         //given
-        String StringTextId = "StringTextId";
-        ManipulateState successResult = ManipulateState.SUCCESS;
-        ManipulateState failResult = ManipulateState.FAIL;
+        jdbcStringRepository.save("textId", "messageBody");
 
-        //when1
-        ManipulateState expected1 = textService.manipulateFromGetAndText2(StringTextId);
-        //then1
-        assertEquals(expected1, successResult);
-
-        //when2
-        ManipulateState expected2 = textService.manipulateFromGetAndText2(null);
-        //then2
-        assertEquals(expected2, failResult);
+        //then
+        assertThrows(NotFoundException.class, () -> {
+            //when
+            textService.manipulateFromGetAndText("wrongTextId");
+        });
     }
 
     @Test
-    void manipulateFromDeleteAndText() {
+    @DisplayName("delete 메소드 성공 test")
+    void manipulateFromDeleteAndText1() throws NotFoundException {
         //given
         jdbcStringRepository.save("textId", "messageBody");
         ManipulateState successResult = ManipulateState.SUCCESS;
-        ManipulateState failResult = ManipulateState.FAIL;
-
-        //when1
-        ManipulateState expected1 = textService.manipulateFromDeleteAndText("textId");
-        //then1
-        assertEquals(expected1, successResult);
-
-        //when2
-        ManipulateState expected2 = textService.manipulateFromDeleteAndText(null);
-        //then2
-        assertEquals(expected2, failResult);
-
-        //when3
-        ManipulateState expected3 = textService.manipulateFromDeleteAndText("wrongTextId");
-        //given3
-        assertEquals(expected3, failResult);
-    }
-
-    @Test
-    void getStorage() {
-        //given
-        jdbcStringRepository.save("textId1", "messageBody");
-        jdbcStringRepository.save("textId2", "messageBody");
-        List<StorageDto> result = new ArrayList<>();
-        StorageDto storageDto1 = new StorageDto();
-        storageDto1.setTextId("textId1");
-        storageDto1.setMessageBody("messageBody");
-        StorageDto storageDto2 = new StorageDto();
-        storageDto2.setTextId("textId2");
-        storageDto2.setMessageBody("messageBody");
-        result.add(storageDto1);
-        result.add(storageDto2);
 
         //when
-        List<StorageDto> expectedList = textService.getStorage();
-
+        ManipulateState expected1 = textService.manipulateFromDeleteAndText("textId");
         //then
-        assertEquals(expectedList.toString(), result.toString());
+        assertEquals(expected1, successResult);
     }
 
     @Test
-    void manipulateFromPutAndText() {
+    @DisplayName("delete 메소드 실패 test")
+    void manipulateFromDeleteAndText2() {
+        //given
+        jdbcStringRepository.save("textId", "messageBody");
+
+        //then
+        assertThrows(NotFoundException.class, () -> {
+            //when
+            textService.manipulateFromDeleteAndText("wrongTextId");
+        });
+    }
+
+    @Test
+    @DisplayName("post 메소드 성공 test")
+    void manipulateFromPutAndText1() throws NotFoundException {
         //given
         jdbcStringRepository.save("textId", "messageBody");
         ManipulateState success = ManipulateState.SUCCESS;
-        ManipulateState fail = ManipulateState.FAIL;
 
-        //when1
+        //when
         ManipulateState expected1 = textService.manipulateFromPutAndText("textId",
             "updateMessage");
-        //then1
+        //then
         assertEquals(expected1, success);
+    }
 
-        //when2
-        ManipulateState expected2 = textService.manipulateFromPutAndText("noExistId",
-            "updateMessage");
-        //then2
-        assertEquals(expected2, fail);
+    @Test
+    @DisplayName("put 메소드 실패 test")
+    void manipulateFromPutAndText2() {
+        //given
+        jdbcStringRepository.save("textId", "messageBody");
 
-        //when3
-        ManipulateState expected3 =
-            textService.manipulateFromPutAndText("textId", null);
-        //then3
-        assertEquals(expected3, fail);
-
-        //when4
-        ManipulateState expected4 =
-            textService.manipulateFromPutAndText(null, "updateMessage");
-        //then4
-        assertEquals(expected4, fail);
+        //then
+        assertThrows(NotFoundException.class, () -> {
+            //when
+            textService.manipulateFromPutAndText("noExistId", "updateMessage");
+        });
     }
 }
