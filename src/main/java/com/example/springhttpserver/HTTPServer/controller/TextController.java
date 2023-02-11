@@ -1,7 +1,8 @@
 package com.example.springhttpserver.HTTPServer.controller;
 
-import com.example.springhttpserver.HTTPServer.service.NotFoundException;
+import com.example.springhttpserver.HTTPServer.exeption.NotFoundException;
 import com.example.springhttpserver.HTTPServer.service.TextService;
+import java.sql.SQLException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ public class TextController {
     private final TextService textService;
 
     @GetMapping("/api/text/{textId}")
-    public ResponseEntity getFromTextAndTextId(@PathVariable String textId) {
+    public ResponseEntity getFromTextAndTextId(@PathVariable String textId) throws SQLException {
         try {
             var stringOfTextId = textService.manipulateFromGetAndText(textId);
             return ResponseEntity
@@ -29,7 +30,7 @@ public class TextController {
 
     @PostMapping("/api/text/{textId}")
     public ResponseEntity postFromText(@PathVariable String textId,
-        @RequestBody String messageBody) {
+        @RequestBody String messageBody) throws SQLException {
         try {
             textService.manipulateFromPostAndText(textId, messageBody);
             return ResponseEntity
@@ -44,7 +45,7 @@ public class TextController {
 
     @PutMapping("/api/text/{textId}")
     public ResponseEntity putFromText(@PathVariable String textId,
-        @RequestBody String messageBody) {
+        @RequestBody String messageBody) throws SQLException {
         try {
             textService.manipulateFromPutAndText(textId, messageBody);
             return ResponseEntity
@@ -58,7 +59,7 @@ public class TextController {
     }
 
     @DeleteMapping("/api/text/{textId}")
-    public ResponseEntity deleteFromTextAndTextId(@PathVariable String textId) {
+    public ResponseEntity deleteFromTextAndTextId(@PathVariable String textId) throws SQLException {
         try {
             textService.manipulateFromDeleteAndText(textId);
             return new ResponseEntity(HttpStatus.NO_CONTENT);

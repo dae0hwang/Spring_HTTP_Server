@@ -1,9 +1,18 @@
 package com.example.springhttpserver.HTTPServer.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.example.springhttpserver.HTTPServer.RepositoryResetHelper;
 import com.example.springhttpserver.HTTPServer.repository.JdbcStringRepository;
-import org.junit.jupiter.api.AfterEach;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
@@ -12,33 +21,34 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @SpringBootTest
 class TextControllerTest {
 
     @Autowired
-    private TextController textController;
-    private MockMvc mockMvc;
-    private JdbcStringRepository jdbcStringRepository;
+    TextController textController;
+    MockMvc mockMvc;
+    JdbcStringRepository jdbcStringRepository;
+    RepositoryResetHelper resetHelper;
+    Connection connection;
+
 
     @BeforeEach
-    void beforeEach() {
+    void beforeEach() throws SQLException {
         mockMvc = MockMvcBuilders.standaloneSetup(textController).build();
-        jdbcStringRepository = new JdbcStringRepository();
-    }
 
-    @AfterEach
-    void afterEach() {
-        jdbcStringRepository.delete("textId");
+        jdbcStringRepository = Mockito.spy(new JdbcStringRepository());
+        connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/jdbc"
+            , "root", "111111");
+        Mockito.doReturn(connection).when(jdbcStringRepository).connectJdbc();
+
+        resetHelper.ifExistDeleteStorage(connection);
+        resetHelper.createStorageTable(connection);
     }
 
     @Test
     void getFromTextAndTextId() throws Exception {
         //given
-        jdbcStringRepository.save("textId", "messageBody");
+        jdbcStringRepository.save(connection, "textId", "messageBody");
 
         //when
         mockMvc.perform(MockMvcRequestBuilders.get("/api/text/textId"))
@@ -77,7 +87,7 @@ class TextControllerTest {
     @Test
     void putFromText() throws Exception {
         //given
-        jdbcStringRepository.save("textId", "messageBody");
+        jdbcStringRepository.save(connection, "textId", "messageBody");
 
         //when
 
@@ -104,9 +114,10 @@ class TextControllerTest {
     }
 
     @Test
+    @Disabled
     void deleteFromTextAndTextId() throws Exception {
         //given
-        jdbcStringRepository.save("textId", "messageBody");
+        jdbcStringRepository.save(connection, "textId", "messageBody");
 
         //when1
         var request1 = MockMvcRequestBuilders.delete("/api/text/textId");

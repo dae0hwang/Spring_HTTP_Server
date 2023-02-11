@@ -5,17 +5,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 class TimeServiceTest {
 
+    @Autowired
     TimeService timeService;
-
-    @BeforeEach
-    void init() {
-        timeService = new TimeService();
-    }
 
     @Test
     void getCurrentTime() {

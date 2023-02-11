@@ -1,4 +1,4 @@
-package com.example.springhttpserver.HTTPServer.service;
+package com.example.springhttpserver.HTTPServer.exeption;
 
 import lombok.NoArgsConstructor;
 

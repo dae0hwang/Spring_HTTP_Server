@@ -1,21 +1,19 @@
 package com.example.springhttpserver.HTTPServer.service;
 
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
-import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+@SpringBootTest
 class ImageServiceTest {
 
+    @Autowired
     ImageService imageService;
-
-    @BeforeEach
-    void init() {
-        imageService = new ImageService();
-    }
 
     @Test
     void manipulateFromGetAndImage() throws IOException {
