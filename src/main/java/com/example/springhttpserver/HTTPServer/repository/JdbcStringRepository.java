@@ -2,18 +2,18 @@ package com.example.springhttpserver.HTTPServer.repository;
 
 import com.example.springhttpserver.HTTPServer.dto.StorageDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 
-@Service
+@Repository
 @RequiredArgsConstructor
 public class JdbcStringRepository {
 
     public Connection connectJdbc() throws SQLException {
-        String url = "jdbc:mysql://localhost:3307/jdbc";
-        String username = "root";
-        String password = "111111";
+        String url = "jdbc:mysql://127.0.0.3:3306/jdbc";
+        String username = "hwang";
+        String password = "5510";
         return DriverManager.getConnection(url
             , username
             , password);
