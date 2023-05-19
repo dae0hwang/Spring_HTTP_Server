@@ -6,11 +6,11 @@ Spring_HTTP_Server에서는 Spring MVC 프레임 워크를 사용하여 전 프�
 이 프로젝트의 목표는 
 Spring Container와 Spring MVC 그리고 MockMVC를 활용한 컨트롤러 테스트까지 전반적인 Spring HTTP Server에 대한 이해와 사용법을 익히는 것이다.
 ### 서버가 제공하는 동작
--   GET /time -> 현재 시간을 json 에 담아서 알려줌(크롬 브라우저 통신 가능)
--   POST /text/{textid} -> Body로 전달된 문자열을 서버가 저장
--   GET /text/{textid} -> 저장된 문자열을 알려줌
--   DELETE /text/{textid} -> 저장된 문자열을 삭제
--   GET /image -> jpeg 이미지를 다운로드
+-   GET api/time -> 현재 시간을 json 에 담아서 알려줌(크롬 브라우저 통신 가능)
+-   POST api/text/{textid} -> Body로 전달된 문자열을 서버가 저장
+-   GET api/text/{textid} -> 저장된 문자열을 알려줌
+-   DELETE api/text/{textid} -> 저장된 문자열을 삭제
+-   GET api/image -> jpeg 이미지를 다운로드
 
 # 블로그 포스트
 
