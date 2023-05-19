@@ -17,7 +17,7 @@ Spring Container와 Spring MVC 그리고 MockMVC를 활용한 컨트롤러 테�
 
 [SpringBoot 설정 파일 기능 활용(Profile나누기, 환경 변수 설정, 설정 파일 분리, group하기)](https://coding-business.tistory.com/37)
 
-&nbsp;&nbsp;&nbsp;[YAML 개념과 특징 이해](https://coding-business.tistory.com/11)
+&nbsp;&nbsp;&nbsp;&nbsp;[YAML 개념과 특징 이해](https://coding-business.tistory.com/11)
 
 **<spring mvc에 대한 이해>**
 
@@ -25,9 +25,9 @@ Spring Container와 Spring MVC 그리고 MockMVC를 활용한 컨트롤러 테�
 
 [Spring MVC 구조와 기본 사용법](https://coding-business.tistory.com/19)
 
-&nbsp;&nbsp;&nbsp;[Spring MVC 패턴에 대한 이해](https://coding-business.tistory.com/12)
+&nbsp;&nbsp;&nbsp;&nbsp;[Spring MVC 패턴에 대한 이해](https://coding-business.tistory.com/12)
 
-&nbsp;&nbsp;&nbsp;[Spring MVC 테스트 방법](https://coding-business.tistory.com/10)
+&nbsp;&nbsp;&nbsp;&nbsp;[Spring MVC 테스트 방법](https://coding-business.tistory.com/10)
 
 # 서버 동작
 ### 1. GET api/time 현재 시간을 json 에 담아서 알려줌(크롬 브라우저 통신 가능)
